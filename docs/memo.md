@@ -99,3 +99,65 @@ const router = createBrowserRouter([
 
 - `errorElement` replaces the need for manual try/catch inside components
 - Useful for **404 pages, unexpected crashes, and boundary errors**
+
+## 6. useNavigate
+
+- `useNavigate` is a hook provided by `react-router-dom v6`.
+- It replaces the `useHistory` hook from v5.
+- Used to programmatically navigate between routes.
+
+### Example
+
+```jsx
+import { useNavigate } from "react-router-dom";
+
+function MyComponent() {
+  const navigate = useNavigate();
+
+  const goHome = () => {
+    navigate("/"); // Navigate to home
+  };
+
+  return <button onClick={goHome}>Go Home</button>;
+}
+```
+
+### Key Features
+
+#### 1. Basic Navigation
+
+```jsx
+navigate("/about");
+```
+
+#### 2. Relative Path Navigation
+
+```jsx
+navigate("details"); // Relative to the current path
+```
+
+#### 3. History Stack Navigation
+
+```jsx
+navigate(-1); // Go back
+navigate(1); // Go forward
+```
+
+#### 4. Using Options
+
+```jsx
+navigate("/login", { replace: true });
+// Replaces the current history entry (cannot go back)
+```
+
+#### 5. Basic Navigation
+
+```jsx
+navigate("/profile", { state: { userId: 123 } });
+```
+
+### Notes/Precautions
+
+- useNavigate can only be called inside component functions (React Hooks rule).
+- The navigate function is synchronous — routing occurs immediately upon calling.
+- Use the replace: true option appropriately to manage browser history.
