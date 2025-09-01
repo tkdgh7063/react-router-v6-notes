@@ -42,3 +42,60 @@ root.render(
   </React.StrictMode>
 );
 ```
+
+## 5. errorElement
+
+- **New in v6**: `errorElement` is a special property in route objects
+- Used to render a fallback UI when:
+  - An error occurs in the component (e.g., thrown inside `Home`)
+  - A non-existent route is accessed (404 handling)
+
+### Key Points
+
+- Defined per route in the route object
+- Can be applied at **layout level** (covers all children) or **per path**
+- Works together with `useRouteError()` hook for accessing error details
+
+### Example
+
+```tsx
+import {
+  createBrowserRouter,
+  RouterProvider,
+  useRouteError,
+} from "react-router-dom";
+
+function ErrorComponent() {
+  const error = useRouteError();
+  return (
+    <div>
+      <h1>Something went wrong!</h1>
+      <p>{error.statusText || error.message}</p>
+    </div>
+  );
+}
+
+function Home() {
+  throw new Error("Home crashed!"); // for testing
+}
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Home />,
+    errorElement: <ErrorComponent />,
+  },
+  {
+    path: "*",
+    element: <div>404 Not Found</div>,
+    errorElement: <ErrorComponent />,
+  },
+]);
+
+<RouterProvider router={router} />;
+```
+
+### Notes
+
+- `errorElement` replaces the need for manual try/catch inside components
+- Useful for **404 pages, unexpected crashes, and boundary errors**
