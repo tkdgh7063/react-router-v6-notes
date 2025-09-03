@@ -263,3 +263,50 @@ function User() {
 - `Outlet` is required for **nested routing** in v6.
 - Parent components stay rendered while child components update inside `<Outlet />`.
 - Helps to create layout-based routing (e.g., sidebar, header, or dashboard layout).
+
+## 9. useOutletContext
+
+- **New in v6**: `useOutletContext` is a hook that allows child routes to access data passed from a parent route via `<Outlet context={...} />`.
+- Enables communication from a parent route to its nested child routes without prop drilling.
+
+### Example
+
+In `User.tsx` (parent route):
+
+```tsx
+import { Outlet } from "react-router-dom";
+
+function User() {
+  const user = { id: 123, name: "Alex" }; // Example user
+  return (
+    <div>
+      <h2>User Screen</h2>
+      {/* Pass context to child routes */}
+      <Outlet context={{ userData: user }} />
+    </div>
+  );
+}
+```
+
+In `Followers.tsx` (child route):
+
+```tsx
+import { useOutletContext } from "react-router-dom";
+
+interface UserContext {
+  userData: { id: number; name: string };
+}
+
+function Followers() {
+  const { userData } = useOutletContext<UserContext>();
+
+  return <div>Followers of user {userData.name}</div>;
+}
+```
+
+### Notes
+
+- `Outlet` in the parent route must provide the `context` prop.
+- `useOutletContext` must be called **inside a child route component**.
+- Works well with **nested routes** to share data like user info, settings, or other state.
+- Avoid using it for **global state**; use Context API or state management libraries instead.

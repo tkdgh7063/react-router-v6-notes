@@ -1,5 +1,6 @@
 import { Link, Outlet, useParams } from "react-router-dom";
 import { users } from "../../db";
+import { capitalizeFirstLetter } from "../../utils";
 
 function User() {
   const { userId } = useParams();
@@ -7,11 +8,11 @@ function User() {
   return (
     <div>
       <h1>
-        User {userId}: {user.name.charAt(0).toUpperCase() + user.name.slice(1)}
+        User {userId}: {capitalizeFirstLetter(user.name)}
       </h1>
       <hr />
       <Link to={`followers`}>See Followers</Link>
-      <Outlet />
+      <Outlet context={{ userData: user }} />
     </div>
   );
 }

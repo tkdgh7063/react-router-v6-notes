@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { users } from "../db";
+import { capitalizeFirstLetter } from "../utils";
 
 function Home() {
   return (
@@ -9,7 +10,7 @@ function Home() {
         {users.map((user) => (
           <li key={user.id} style={{ fontSize: "18px" }}>
             <Link to={`/users/${user.id}`}>
-              {user.name.charAt(0).toUpperCase() + user.name.slice(1)}
+              {capitalizeFirstLetter(user.name)}
             </Link>
           </li>
         ))}
