@@ -189,3 +189,77 @@ const { id } = useParams<{ id: string }>();
 ```
 
 - Behavior is consistent between v5 and v6.
+
+## 8. Outlet
+
+- **New in v6**: `Outlet` is a component that acts as a placeholder for rendering nested routes.
+- Allows child routes to be displayed inside the parent route's layout.
+
+### Example
+
+```tsx
+import { Outlet } from "react-router-dom";
+
+function Home() {
+  return (
+    <div>
+      <h1>Home</h1>
+      {/* Nested routes will be rendered here */}
+      <Outlet />
+    </div>
+  );
+}
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Home />,
+    children: [
+      {
+        path: "about",
+        element: <div>About Page</div>,
+      },
+      {
+        path: "contact",
+        element: <div>Contact Page</div>,
+      },
+    ],
+  },
+]);
+```
+
+### Nested Example (User + Followers)
+
+```tsx
+const router = createBrowserRouter([
+  {
+    path: "users/:userId",
+    element: <User />,
+    children: [
+      {
+        path: "followers",
+        element: <Followers />,
+      },
+    ],
+  },
+]);
+```
+
+In `User.tsx`:
+
+```tsx
+function User() {
+  return (
+    <div>
+      <h2>User Screen</h2>
+      <Outlet /> {/* Followers will render here */}
+    </div>
+  );
+}
+```
+
+### Notes
+
+- `Outlet` is required for **nested routing** in v6.
+- Parent components stay rendered while child components update inside `<Outlet />`.
+- Helps to create layout-based routing (e.g., sidebar, header, or dashboard layout).
