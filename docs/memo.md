@@ -310,3 +310,32 @@ function Followers() {
 - `useOutletContext` must be called **inside a child route component**.
 - Works well with **nested routes** to share data like user info, settings, or other state.
 - Avoid using it for **global state**; use Context API or state management libraries instead.
+
+## 10. useSearchParams
+
+- **New in v6**: Hook to read and modify URL query parameters.
+
+### Example
+
+```tsx
+import { useSearchParams } from "react-router-dom";
+
+function GeoComponent() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const geo = searchParams.get("geo");
+
+  // Update query parameter after 3 seconds
+  setTimeout(() => {
+    setSearchParams({ geo: "123" });
+  }, 3000);
+
+  return <p>Current geo: {geo}</p>;
+}
+```
+
+### Notes
+
+- `searchParams.get("key")` retrieves the value of a query parameter.
+- `setSearchParams({key: value})` updates the query parameters in the URL.
+- Component re-renders when query parameters change.
+- Must be called inside a React component function (React Hooks rule).
