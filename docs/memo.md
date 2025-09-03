@@ -161,3 +161,31 @@ navigate("/profile", { state: { userId: 123 } });
 - useNavigate can only be called inside component functions (React Hooks rule).
 - The navigate function is synchronous — routing occurs immediately upon calling.
 - Use the replace: true option appropriately to manage browser history.
+
+## 7. useParams
+
+- `useParams` returns the route parameters from the current URL.
+- Available in both React Router v5 and v6.
+- No major changes between v5 and v7.
+
+### Usage
+
+```jsx
+import { useParams } from "react-router-dom";
+
+function User() {
+  const { id } = useParams();
+  return <h1>User ID: {id}</h1>;
+}
+```
+
+### Notes
+
+- Returns an object with key-value pairs of the dynamic segments.
+- In Typescript, v6 allows generic typing:
+
+```tsx
+const { id } = useParams<{ id: string }>();
+```
+
+- Behavior is consistent between v5 and v6.
